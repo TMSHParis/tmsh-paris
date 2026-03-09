@@ -1,12 +1,15 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary: #3B4CCA;
-  --color-primary-dark: #2a38a0;
+  --color-primary: #3359EC;
+  --color-primary-dark: #2a47c0;
   --color-teal: #5BEBB5;
   --color-gold: #F5C542;
   --color-pink: #F5A0C0;
-  --color-blue-deep: #3535D1;
+  --color-dark: #1E1E1E;
+  --color-gray-bg: #F7F7F7;
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Roboto', sans-serif;
 }
 
 html {
@@ -15,5 +18,13 @@ html {
 
 body {
   background: #ffffff;
-  color: #171717;
+  color: #1E1E1E;
+  font-family: var(--font-body);
+}
+
+/* Outlined number style */
+.number-outline {
+  -webkit-text-stroke: 2px #3359EC;
+  color: transparent;
+  font-family: var(--font-heading);
 }

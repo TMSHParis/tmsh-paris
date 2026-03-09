@@ -1,113 +1,153 @@
 "use client";
 
-import { useState } from "react";
-import {
-  ArrowRight,
-  Play,
-  ChevronLeft,
-  ChevronRight,
-  Monitor,
-  Smartphone,
-  Film,
-  FileText,
-  BookOpen,
-  Book,
-  Mail,
-  CheckCircle,
-} from "lucide-react";
+import { ArrowRight, Play, ChevronLeft, ChevronRight } from "lucide-react";
 
-/* ─── HEADER ─── */
+/* ─────────────────────── HEADER ─────────────────────── */
 function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <div className="text-2xl font-bold tracking-tight">
-          TMSH
-          <span className="block text-[10px] font-normal tracking-[0.3em] text-gray-500">
-            PARIS
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm">
+      <div className="mx-auto flex max-w-[1280px] items-center justify-between px-8 py-5">
+        {/* Logo */}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
+            <svg width="36" height="32" viewBox="0 0 36 32" fill="none">
+              <circle cx="12" cy="12" r="10" fill="#5BEBB5" />
+              <circle cx="24" cy="12" r="10" fill="#3359EC" opacity="0.5" />
+              <path d="M18 12 L18 28 Q18 32 14 28 L8 22" stroke="#3359EC" strokeWidth="3" fill="none" strokeLinecap="round" />
+            </svg>
+          </div>
+          <span className="font-heading text-xl font-bold tracking-tight text-dark">
+            TMSH Paris
           </span>
         </div>
-        <nav className="hidden gap-8 text-sm font-medium text-gray-700 md:flex">
-          <a href="#accueil" className="hover:text-primary">Accueil</a>
-          <a href="#realisations" className="hover:text-primary">Réalisation</a>
-          <a href="#clients" className="hover:text-primary">Clients</a>
-          <a href="#pricing" className="hover:text-primary">Pricing</a>
+
+        {/* Nav */}
+        <nav className="hidden items-center gap-7 lg:flex">
+          <a href="#solution" className="font-heading text-xs font-semibold uppercase tracking-wide text-dark hover:text-primary">
+            Solution
+          </a>
+          <a href="#clients" className="font-heading text-xs font-semibold uppercase tracking-wide text-dark underline decoration-dark underline-offset-4 hover:text-primary">
+            Clients
+          </a>
+          <a href="#pricing" className="font-heading text-xs font-semibold uppercase tracking-wide text-dark hover:text-primary">
+            Pricing
+          </a>
+          <a href="#ressources" className="font-heading text-xs font-semibold uppercase tracking-wide text-dark hover:text-primary">
+            Ressources
+          </a>
+          <a href="#academy" className="font-heading text-xs font-semibold uppercase tracking-wide text-dark hover:text-primary">
+            Academy
+          </a>
         </nav>
-        <a
-          href="#contact"
-          className="hidden rounded-md border border-primary px-5 py-2 text-sm font-medium text-primary transition hover:bg-primary hover:text-white md:inline-block"
-        >
-          Prendre rendez-vous
-        </a>
+
+        {/* Right side */}
+        <div className="hidden items-center gap-4 lg:flex">
+          <div className="flex items-center gap-2 text-xs font-semibold">
+            <span className="text-primary">FR</span>
+            <span className="text-gray-400">EN</span>
+          </div>
+          <a
+            href="#contact"
+            className="rounded-sm border border-primary px-5 py-2 font-heading text-xs font-semibold text-primary transition hover:bg-primary hover:text-white"
+          >
+            Prendre rendez-vous
+          </a>
+          <a
+            href="#"
+            className="rounded-sm border border-dark px-5 py-2 font-heading text-xs font-semibold text-dark transition hover:bg-dark hover:text-white"
+          >
+            Se connecter
+          </a>
+        </div>
       </div>
     </header>
   );
 }
 
-/* ─── HERO ─── */
+/* ─────────────────────── HERO ─────────────────────── */
 function Hero() {
   return (
-    <section id="accueil" className="relative overflow-hidden bg-white py-20">
-      {/* Decorative blobs */}
-      <div className="absolute -left-32 top-1/3 h-96 w-96 rounded-full bg-gold/60" />
-      <div className="absolute -right-32 top-1/4 h-[500px] w-[500px] rounded-full bg-teal/50" />
+    <section id="accueil" className="relative overflow-hidden bg-white pb-8 pt-16">
+      {/* Blobs */}
+      <div className="absolute -left-48 bottom-0 h-[500px] w-[500px] rounded-full bg-gold/50" />
+      <div className="absolute -right-40 top-10 h-[550px] w-[550px] rounded-full bg-teal/40" />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 lg:flex-row lg:items-center">
-        <div className="flex-1 space-y-6">
-          <h1 className="text-4xl font-extrabold leading-tight text-gray-900 md:text-5xl">
-            L&apos;Agence de Communication
-            <br />
-            avec 21 ann&eacute;es d&apos;exp&eacute;rience
+      <div className="relative mx-auto flex max-w-[1280px] items-center gap-8 px-8">
+        {/* Left content */}
+        <div className="flex-1 space-y-8 py-12">
+          <h1 className="font-heading text-[3.2rem] font-semibold italic leading-[1.15] text-dark">
+            Vous ne devriez plus rougir de vos contenus
           </h1>
-          <p className="max-w-md text-lg text-gray-600">
-            Nous vous aidons &agrave; concevoir et produire tous vos{" "}
-            <strong className="text-gray-900">contenus digitaux</strong> pour
-            atteindre vos objectifs strat&eacute;giques.
+          <p className="max-w-md font-body text-base leading-relaxed text-gray-600">
+            TMSH Paris vous aide &agrave; concevoir et produire tous vos{" "}
+            <strong className="font-bold text-dark">contenus digitaux</strong>{" "}
+            pour atteindre vos objectifs strat&eacute;giques.
           </p>
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex flex-col gap-3">
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 rounded-md border border-primary px-6 py-3 text-sm font-medium text-primary transition hover:bg-primary hover:text-white"
+              className="inline-flex w-fit items-center gap-8 border border-primary px-6 py-3 font-heading text-sm font-semibold text-dark transition hover:bg-primary hover:text-white"
             >
-              Prendre rendez-vous <ArrowRight size={16} />
+              Prendre rendez-vous
+              <ArrowRight size={18} className="text-primary" />
             </a>
             <a
               href="#solution"
-              className="inline-flex items-center gap-2 rounded-md border border-primary px-6 py-3 text-sm font-medium text-primary transition hover:bg-primary hover:text-white"
+              className="inline-flex w-fit items-center gap-8 border border-primary px-6 py-3 font-heading text-sm font-semibold text-dark transition hover:bg-primary hover:text-white"
             >
-              D&eacute;couvrir nos offres <ArrowRight size={16} />
+              D&eacute;couvrir nos offres
+              <ArrowRight size={18} className="text-primary" />
             </a>
           </div>
         </div>
-        <div className="relative flex-1">
-          {/* Isometric illustration placeholder */}
-          <div className="relative mx-auto w-full max-w-lg">
-            <svg viewBox="0 0 500 400" className="w-full">
-              {/* Laptop */}
-              <rect x="100" y="120" width="280" height="180" rx="8" fill="#EEF0FF" stroke="#3B4CCA" strokeWidth="2" />
-              <rect x="115" y="135" width="250" height="140" rx="4" fill="white" stroke="#3B4CCA" strokeWidth="1" />
-              {/* Screen content */}
-              <rect x="130" y="150" width="80" height="8" rx="2" fill="#3B4CCA" opacity="0.3" />
-              <rect x="130" y="165" width="60" height="6" rx="2" fill="#3B4CCA" opacity="0.2" />
-              <rect x="130" y="178" width="100" height="60" rx="4" fill="#5BEBB5" opacity="0.3" />
-              <rect x="250" y="150" width="100" height="80" rx="4" fill="#F5C542" opacity="0.3" />
-              {/* Keyboard base */}
-              <path d="M80 300 L120 280 L380 280 L420 300 Z" fill="#EEF0FF" stroke="#3B4CCA" strokeWidth="1" />
-              {/* Floating phone */}
-              <rect x="380" y="200" width="70" height="120" rx="8" fill="white" stroke="#3B4CCA" strokeWidth="2" />
-              <rect x="390" y="215" width="50" height="80" rx="2" fill="#EEF0FF" />
-              <circle cx="415" cy="310" r="5" fill="#3B4CCA" opacity="0.3" />
-              {/* Floating tablet */}
-              <rect x="20" y="80" width="100" height="140" rx="6" fill="white" stroke="#3B4CCA" strokeWidth="2" />
-              <rect x="30" y="95" width="80" height="100" rx="2" fill="#EEF0FF" />
-              {/* Play button icon */}
-              <circle cx="350" cy="170" r="15" fill="#3B4CCA" opacity="0.15" />
-              <polygon points="345,162 360,170 345,178" fill="#3B4CCA" opacity="0.4" />
-              {/* Chart icon */}
-              <rect x="270" y="170" width="8" height="30" rx="2" fill="#5BEBB5" opacity="0.5" />
-              <rect x="282" y="160" width="8" height="40" rx="2" fill="#3B4CCA" opacity="0.3" />
-              <rect x="294" y="175" width="8" height="25" rx="2" fill="#F5C542" opacity="0.5" />
-            </svg>
+
+        {/* Right illustration */}
+        <div className="hidden flex-1 lg:block">
+          <svg viewBox="0 0 520 420" className="w-full max-w-lg">
+            <rect x="100" y="100" width="300" height="200" rx="8" fill="#EEF0FF" stroke="#3359EC" strokeWidth="2.5" />
+            <rect x="118" y="118" width="264" height="155" rx="4" fill="white" stroke="#3359EC" strokeWidth="1.2" />
+            <rect x="135" y="135" width="90" height="8" rx="2" fill="#3359EC" opacity="0.25" />
+            <rect x="135" y="150" width="65" height="6" rx="2" fill="#3359EC" opacity="0.15" />
+            <rect x="135" y="168" width="100" height="65" rx="4" fill="#5BEBB5" opacity="0.25" />
+            <rect x="255" y="135" width="110" height="90" rx="4" fill="#F5C542" opacity="0.25" />
+            <rect x="270" y="155" width="8" height="35" rx="2" fill="#5BEBB5" opacity="0.5" />
+            <rect x="284" y="145" width="8" height="45" rx="2" fill="#3359EC" opacity="0.3" />
+            <rect x="298" y="160" width="8" height="30" rx="2" fill="#F5C542" opacity="0.5" />
+            <circle cx="360" cy="160" r="16" fill="#3359EC" opacity="0.12" />
+            <polygon points="355,152 370,160 355,168" fill="#3359EC" opacity="0.35" />
+            <path d="M75 300 L120 280 L380 280 L425 300 Z" fill="#EEF0FF" stroke="#3359EC" strokeWidth="1.2" />
+            <rect x="390" y="190" width="75" height="130" rx="10" fill="white" stroke="#3359EC" strokeWidth="2.5" />
+            <rect x="402" y="208" width="51" height="85" rx="3" fill="#EEF0FF" />
+            <circle cx="427" cy="308" r="5" fill="#3359EC" opacity="0.25" />
+            <circle cx="407" cy="230" r="8" fill="#5BEBB5" opacity="0.3" />
+            <rect x="15" y="70" width="108" height="155" rx="8" fill="white" stroke="#3359EC" strokeWidth="2.5" />
+            <rect x="28" y="88" width="82" height="110" rx="3" fill="#EEF0FF" />
+            <rect x="38" y="100" width="62" height="6" rx="2" fill="#3359EC" opacity="0.2" />
+            <rect x="38" y="112" width="45" height="6" rx="2" fill="#3359EC" opacity="0.15" />
+            <rect x="38" y="130" width="62" height="40" rx="3" fill="#5BEBB5" opacity="0.15" />
+          </svg>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────── CLIENT LOGOS ─────────────────────── */
+function ClientLogos() {
+  const logos = ["aircall", "orange", "LVMH", "PSG", "Giphar", "MACIF"];
+  return (
+    <section className="bg-white py-6">
+      <div className="mx-auto max-w-[1280px] px-8">
+        <div className="border-y border-primary/30 py-6">
+          <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
+            {logos.map((name) => (
+              <span
+                key={name}
+                className="font-heading text-lg font-bold tracking-wide text-primary/60"
+              >
+                {name}
+              </span>
+            ))}
           </div>
         </div>
       </div>
@@ -115,69 +155,75 @@ function Hero() {
   );
 }
 
-/* ─── CLIENT LOGOS ─── */
-function ClientLogos() {
-  const logos = ["VINCI", "Apple", "aircall", "orange", "LVMH", "PSG"];
-  return (
-    <section className="border-y border-gray-200 bg-white py-8">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-8 px-6 md:gap-12">
-        {logos.map((name) => (
-          <div
-            key={name}
-            className="flex items-center justify-center text-xl font-bold text-primary/70"
-          >
-            {name}
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ─── TESTIMONIALS VIDEO ─── */
-function TestimonialsVideo() {
-  const testimonials = [
-    { brand: "Dior", quote: "Vous êtes vraiment toujours au rendez-vous en matière d'accompagnement, de planning et de performance." },
-    { brand: "Melanie Dram", quote: "Vous êtes vraiment toujours au rendez-vous en matière d'accompagnement, de planning et de performance." },
-    { brand: "LACOSTE", quote: "Vous êtes vraiment toujours au rendez-vous en matière d'accompagnement, de planning et de performance." },
+/* ─────────────────────── TESTIMONIALS ─────────────────────── */
+function Testimonials() {
+  const items = [
+    {
+      quote: "Vous êtes vraiment toujours au rendez-vous en matière d'accompagnement, de planning et de performance.",
+      company: "PRIMAGAZ",
+      name: "Laetitia Aymard,",
+      role: "Directrice Marketing",
+      color: "bg-teal",
+    },
+    {
+      quote: "Notre communauté éditoriale est en place et notre stratégie SEO porte ses fruits.",
+      company: "MACIF",
+      name: "Antoine Wintrebert,",
+      role: "Responsable Marketing Digital",
+      color: "bg-teal",
+    },
+    {
+      quote: "On est très contents car on a gagné des places en SEO dans Google grâce à nos différents contenus.",
+      company: "Giphar",
+      name: "Caroline Sautereau du Part,",
+      role: "Responsable Marketing Digital",
+      color: "bg-teal",
+    },
   ];
+
   return (
-    <section id="realisations" className="bg-gray-50 py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <h2 className="mb-14 text-center text-3xl font-extrabold text-gray-900 md:text-4xl">
+    <section className="bg-gray-bg py-24">
+      <div className="mx-auto max-w-[1280px] px-8">
+        <h2 className="mb-16 text-center font-heading text-[2.8rem] font-bold italic leading-tight text-dark">
           Comme vous, ils manquaient de temps,
           <br />
-          de ressources, d&apos;inspiration et de
+          de ressources, d&apos;inspiration et de r&eacute;sultats
           <br />
-          r&eacute;sultats concrets
+          concrets
         </h2>
-        <div className="grid gap-8 md:grid-cols-3">
-          {testimonials.map((t, i) => (
-            <div key={i} className="space-y-4">
-              <div className="relative flex h-48 items-center justify-center rounded-lg bg-teal">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/80">
-                  <Play size={18} className="text-primary" />
+        <div className="grid gap-10 md:grid-cols-3">
+          {items.map((t, i) => (
+            <div key={i} className="space-y-5">
+              {/* Video thumbnail */}
+              <div className={`relative flex h-52 items-center justify-center rounded-md ${t.color}`}>
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow-sm">
+                  <Play size={18} className="ml-0.5 text-primary" fill="#3359EC" />
                 </div>
               </div>
-              <div className="space-y-3">
-                <p className="flex gap-2 text-sm text-gray-600">
-                  <span className="text-xl leading-none text-primary">&ldquo;&ldquo;</span>
-                  {t.quote}
-                </p>
-                <hr className="border-gray-300" />
-                <p className="text-lg font-bold italic text-gray-800">
-                  {t.brand}
-                </p>
+              {/* Quote */}
+              <div className="flex gap-2">
+                <span className="font-heading text-2xl leading-none text-primary">&ldquo;&ldquo;</span>
+                <p className="font-body text-sm leading-relaxed text-gray-600">{t.quote}</p>
+              </div>
+              {/* Divider */}
+              <hr className="border-primary/20" />
+              {/* Company */}
+              <p className="font-heading text-lg font-bold text-dark">{t.company}</p>
+              {/* Person */}
+              <div>
+                <p className="font-heading text-sm font-bold text-dark">{t.name}</p>
+                <p className="font-heading text-sm font-bold text-dark">{t.role}</p>
               </div>
             </div>
           ))}
         </div>
-        <div className="mt-10 text-center">
+        <div className="mt-14 text-center">
           <a
             href="#"
-            className="inline-flex items-center gap-2 rounded-md border border-primary px-6 py-3 text-sm font-medium text-primary transition hover:bg-primary hover:text-white"
+            className="inline-flex items-center gap-6 border border-primary px-7 py-3.5 font-heading text-sm font-semibold text-dark transition hover:bg-primary hover:text-white"
           >
-            Voir toutes nos Love Stories <ArrowRight size={16} />
+            Voir toutes nos Love Stories
+            <ArrowRight size={18} className="text-primary" />
           </a>
         </div>
       </div>
@@ -185,69 +231,59 @@ function TestimonialsVideo() {
   );
 }
 
-/* ─── CONTENT MARKETING / SERVICES ─── */
+/* ─────────────────────── CONTENT MARKETING ─────────────────────── */
 function ContentMarketing() {
   const services = [
-    {
-      title: "Stratégie",
-      items: ["Analyse & Audit", "Audience & Personas", "Stratégie éditoriale"],
-    },
-    {
-      title: "Production",
-      items: ["Définition des sujets", "Workflow de production", "Création de contenus"],
-    },
-    {
-      title: "Activation",
-      items: ["Social Media", "Paid ads", "Emailing"],
-    },
-    {
-      title: "Optimisation",
-      items: ["SEO", "Comités Éditoriaux", "Analyse, ajustements"],
-    },
+    { title: "Stratégie", items: ["Analyse & Audit", "Audience & Personas", "Stratégie éditoriale"] },
+    { title: "Production", items: ["Définition des sujets", "Workflow de production", "Création de contenus"] },
+    { title: "Activation", items: ["Social Media", "Paid ads", "Emailing"] },
+    { title: "Optimisation", items: ["SEO", "Comités Éditoriaux", "Analyse, ajustements"] },
   ];
-  const colors = ["bg-blue-deep", "bg-teal", "bg-gold", "bg-pink"];
+  const barColors = ["bg-[#2B3FD4]", "bg-teal", "bg-gold", "bg-pink"];
 
   return (
-    <section id="solution" className="bg-white py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <h2 className="mb-16 text-center text-3xl font-extrabold text-gray-900 md:text-4xl">
+    <section id="solution" className="bg-white py-24">
+      <div className="mx-auto max-w-[1280px] px-8">
+        <h2 className="mb-16 text-center font-heading text-[2.8rem] font-semibold italic leading-tight text-dark">
           Atteignez vos objectifs strat&eacute;giques
           <br />
-          avec notre{" "}
-          <span className="text-primary">solution</span> compl&egrave;te
+          avec notre <span className="not-italic text-primary underline decoration-primary underline-offset-4">solution</span> compl&egrave;te
           <br />
-          de <span className="text-primary">Content Marketing</span>
+          de <span className="not-italic text-primary underline decoration-primary underline-offset-4">Content Marketing</span>
         </h2>
 
-        <div className="rounded-2xl bg-gray-50 px-8 py-12">
-          <h3 className="mb-10 text-center text-2xl font-bold text-gray-900">
+        <div className="rounded-2xl bg-gray-bg px-10 py-14">
+          <h3 className="mb-12 text-center font-heading text-2xl font-bold italic text-dark">
             Nous couvrons tous vos besoins
           </h3>
-
-          <div className="mb-10 grid gap-8 text-center md:grid-cols-4">
+          <div className="mb-12 grid gap-8 text-center md:grid-cols-4">
             {services.map((s) => (
               <div key={s.title}>
-                <h4 className="mb-3 text-lg font-bold text-gray-900">
-                  {s.title}
-                </h4>
+                <h4 className="mb-4 font-heading text-lg font-bold italic text-dark">{s.title}</h4>
                 {s.items.map((item) => (
-                  <p key={item} className="text-sm text-gray-500">
-                    {item}
-                  </p>
+                  <p key={item} className="font-body text-sm text-gray-500">{item}</p>
                 ))}
               </div>
             ))}
           </div>
 
-          {/* Timeline bar */}
-          <div className="relative mx-auto flex h-6 max-w-3xl items-center overflow-hidden rounded-full border-2 border-primary/30">
-            {colors.map((c, i) => (
-              <div key={i} className={`relative flex-1 ${c} h-full`}>
-                <span className="absolute -top-8 left-0 flex h-7 w-7 items-center justify-center rounded-md border-2 border-primary bg-white text-xs font-bold text-primary">
-                  {i + 1}
-                </span>
-              </div>
-            ))}
+          {/* Timeline */}
+          <div className="relative mx-auto max-w-3xl">
+            <div className="flex items-center">
+              {barColors.map((c, i) => (
+                <div key={i} className="relative flex-1">
+                  {/* Number badge */}
+                  <div className="absolute -top-10 left-0 z-10 flex h-7 w-7 items-center justify-center rounded border-2 border-primary bg-white font-heading text-xs font-bold text-primary">
+                    {i + 1}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-2 flex h-5 overflow-hidden rounded-full border-2 border-primary/25">
+              {barColors.map((c, i) => (
+                <div key={i} className={`flex-1 ${c}`} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -255,7 +291,7 @@ function ContentMarketing() {
   );
 }
 
-/* ─── TEAM / EXTENSION ─── */
+/* ─────────────────────── TEAM ─────────────────────── */
 function TeamSection() {
   const stats = [
     {
@@ -270,7 +306,7 @@ function TeamSection() {
       highlight: "Talents",
       rest: "internationaux éditoriaux et créatifs",
       desc: "Une sélection de talents et experts parmi lesquels nous trouverons vos pépites créatives.",
-      color: "bg-blue-deep",
+      color: "bg-[#3359EC]",
     },
     {
       number: "1",
@@ -282,40 +318,37 @@ function TeamSection() {
   ];
 
   return (
-    <section className="bg-white py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <h2 className="mb-14 text-center text-2xl font-extrabold text-gray-900 md:text-3xl">
+    <section className="bg-white py-24">
+      <div className="mx-auto max-w-[1280px] px-8">
+        <h2 className="mb-16 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
           Plus qu&apos;une agence, nous sommes
           <br />
           l&apos;extension de vos &eacute;quipes
         </h2>
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-10 md:grid-cols-3">
           {stats.map((s) => (
-            <div key={s.number} className="space-y-4">
-              <div
-                className={`relative flex h-48 items-center justify-center rounded-lg ${s.color}`}
-              >
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/80">
-                  <Play size={18} className="text-gray-700" />
+            <div key={s.number} className="space-y-5">
+              <div className={`relative flex h-56 items-center justify-center rounded-md ${s.color}`}>
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow-sm">
+                  <Play size={18} className="ml-0.5 text-gray-700" fill="#555" />
                 </div>
               </div>
-              <p className="text-5xl font-extrabold text-primary/20">
-                {s.number}
-              </p>
-              <h3 className="text-lg font-bold text-gray-900">
-                <span className="text-primary underline">{s.highlight}</span>{" "}
+              <p className="number-outline text-6xl font-extrabold">{s.number}</p>
+              <h3 className="font-heading text-lg font-bold leading-snug text-dark">
+                <span className="text-primary underline decoration-primary underline-offset-4">{s.highlight}</span>{" "}
                 {s.rest}
               </h3>
-              <p className="text-sm text-gray-500">{s.desc}</p>
+              <p className="font-body text-sm leading-relaxed text-gray-500">{s.desc}</p>
             </div>
           ))}
         </div>
-        <div className="mt-10 text-center">
+        <div className="mt-14 text-center">
           <a
             href="#"
-            className="inline-flex items-center gap-2 rounded-md border border-primary px-6 py-3 text-sm font-medium text-primary transition hover:bg-primary hover:text-white"
+            className="inline-flex items-center gap-6 border border-primary px-7 py-3.5 font-heading text-sm font-semibold text-dark transition hover:bg-primary hover:text-white"
           >
-            Voir la solution compl&egrave;te <ArrowRight size={16} />
+            Voir la solution compl&egrave;te
+            <ArrowRight size={18} className="text-primary" />
           </a>
         </div>
       </div>
@@ -323,112 +356,101 @@ function TeamSection() {
   );
 }
 
-/* ─── CONTENT TYPES ─── */
+/* ─────────────────────── CONTENT TYPES ─────────────────────── */
 function ContentTypes() {
-  const types = [
-    { icon: <Monitor size={20} />, label: "Présentation" },
-    { icon: <Smartphone size={20} />, label: "Social content" },
-    { icon: <Film size={20} />, label: "Vidéo" },
-    { icon: <FileText size={20} />, label: "Article SEO" },
-    { icon: <BookOpen size={20} />, label: "Brochure" },
-    { icon: <Book size={20} />, label: "Ebook" },
-    { icon: <Mail size={20} />, label: "" },
-  ];
+  const types = ["Emailing", "Illustration", "Infographie", "Interview", "Motion design", "Photo"];
 
   return (
-    <section className="bg-white py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="flex flex-col items-center gap-12 lg:flex-row">
-          {/* Illustration placeholder */}
+    <section className="bg-white py-24">
+      <div className="mx-auto max-w-[1280px] px-8">
+        <div className="flex flex-col items-center gap-16 lg:flex-row">
+          {/* Illustration */}
           <div className="relative flex-1">
-            <div className="relative mx-auto w-full max-w-md">
-              <svg viewBox="0 0 400 350" className="w-full">
-                {/* Background blobs */}
-                <circle cx="200" cy="180" r="130" fill="#5BEBB5" opacity="0.2" />
-                <circle cx="140" cy="220" r="80" fill="#F5C542" opacity="0.2" />
-                {/* Open box */}
-                <rect x="120" y="100" width="180" height="140" rx="8" fill="white" stroke="#3B4CCA" strokeWidth="2" />
-                {/* Box flaps */}
-                <path d="M120 100 L210 60 L300 100" fill="none" stroke="#3B4CCA" strokeWidth="2" />
-                <path d="M120 100 L160 75" fill="none" stroke="#3B4CCA" strokeWidth="2" />
-                <path d="M300 100 L260 75" fill="none" stroke="#3B4CCA" strokeWidth="2" />
-                {/* Items inside box */}
-                <rect x="150" y="120" width="40" height="50" rx="4" fill="#3B4CCA" opacity="0.2" />
-                <rect x="200" y="110" width="35" height="60" rx="4" fill="#5BEBB5" opacity="0.3" />
-                <rect x="245" y="125" width="30" height="45" rx="4" fill="#F5C542" opacity="0.3" />
-                {/* Small floating items */}
-                <rect x="60" y="200" width="50" height="40" rx="4" fill="white" stroke="#3B4CCA" strokeWidth="1.5" />
-                <rect x="310" y="220" width="45" height="35" rx="20" fill="white" stroke="#3B4CCA" strokeWidth="1.5" />
-              </svg>
-            </div>
+            <svg viewBox="0 0 420 370" className="mx-auto w-full max-w-md">
+              <circle cx="220" cy="190" r="140" fill="#5BEBB5" opacity="0.18" />
+              <circle cx="140" cy="240" r="90" fill="#F5C542" opacity="0.18" />
+              <rect x="130" y="90" width="190" height="155" rx="10" fill="white" stroke="#3359EC" strokeWidth="2.5" />
+              <path d="M130 90 L225 45 L320 90" fill="none" stroke="#3359EC" strokeWidth="2.5" />
+              <path d="M130 90 L175 65" fill="none" stroke="#3359EC" strokeWidth="2.5" />
+              <path d="M320 90 L275 65" fill="none" stroke="#3359EC" strokeWidth="2.5" />
+              <rect x="158" y="115" width="45" height="55" rx="4" fill="#3359EC" opacity="0.18" />
+              <rect x="212" y="105" width="40" height="65" rx="4" fill="#5BEBB5" opacity="0.25" />
+              <rect x="260" y="120" width="35" height="50" rx="4" fill="#F5C542" opacity="0.25" />
+              <rect x="55" y="210" width="60" height="50" rx="6" fill="white" stroke="#3359EC" strokeWidth="2" />
+              <rect x="325" y="235" width="55" height="45" rx="22" fill="white" stroke="#3359EC" strokeWidth="2" />
+            </svg>
           </div>
-          <div className="flex-1 space-y-4">
-            <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
+          {/* Text */}
+          <div className="flex-1 space-y-5">
+            <h2 className="font-heading text-[2.8rem] font-extrabold leading-tight text-dark">
               Nous aimons
               <br />
               tous les contenus
             </h2>
-            <p className="text-gray-600">
-              Nous vous aidons &agrave; produire tous vos contenus digitaux,
+            <p className="font-body text-base leading-relaxed text-gray-600">
+              Nous vous aidons &agrave; produire{" "}
+              <span className="underline decoration-dark underline-offset-4">tous vos contenus digitaux</span>,
               quel que soit le format (&eacute;dito, audio et vid&eacute;o).
             </p>
           </div>
         </div>
 
-        {/* Content type tabs */}
-        <div className="mt-12 flex flex-wrap justify-center gap-4 border-y border-gray-200 py-6">
-          {types.map((t, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-2 border-r border-gray-200 pr-4 text-sm text-primary last:border-0"
-            >
-              {t.icon}
-              {t.label && <span>{t.label}</span>}
-            </div>
-          ))}
+        {/* Tabs */}
+        <div className="mt-16 border-y border-primary/25 py-5">
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            {types.map((t, i) => (
+              <div key={i} className="flex items-center gap-2 border-r border-primary/20 pr-6 last:border-0">
+                <span className="font-heading text-sm font-semibold text-primary">{t}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-/* ─── PRIORITIES ─── */
+/* ─────────────────────── PRIORITIES ─────────────────────── */
 function Priorities() {
   const items = [
     {
       title: "Fiabilité",
       points: ["Sélection des meilleurs experts", "Renouvellement sous 48h", "Réponse sous 24h"],
-      emoji: "⏱",
     },
     {
       title: "Amélioration",
       points: ["Partage de notre veille", "Formation de vos équipes", "Mesure de votre satisfaction"],
-      emoji: "📦",
     },
     {
       title: "Confidentialité",
       points: ["Confidentialité des échanges", "Contenus libres de droit", "Maîtrise des contraintes légales"],
-      emoji: "🔒",
     },
   ];
 
   return (
-    <section className="bg-white py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <h2 className="mb-14 text-center text-2xl font-extrabold text-gray-900 md:text-3xl">
+    <section className="bg-white py-24">
+      <div className="mx-auto max-w-[1280px] px-8">
+        <h2 className="mb-16 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
           Votre succ&egrave;s
           <br />
           est notre priorit&eacute;
         </h2>
-        <div className="grid gap-10 md:grid-cols-3">
+        <div className="grid gap-12 md:grid-cols-3">
           {items.map((item) => (
-            <div key={item.title} className="space-y-4">
-              <div className="text-4xl">{item.emoji}</div>
-              <h3 className="text-xl font-bold text-gray-900">{item.title}</h3>
-              <ul className="space-y-2">
+            <div key={item.title} className="space-y-5">
+              {/* Icon placeholder */}
+              <div className="h-16 w-16">
+                <svg viewBox="0 0 64 64" className="h-full w-full">
+                  <circle cx="32" cy="32" r="28" fill="#F5C542" opacity="0.2" />
+                  <circle cx="32" cy="32" r="20" fill="white" stroke="#3359EC" strokeWidth="2" />
+                  <circle cx="32" cy="32" r="8" fill="#3359EC" opacity="0.15" />
+                </svg>
+              </div>
+              <h3 className="font-heading text-xl font-bold italic text-dark">{item.title}</h3>
+              <ul className="space-y-2.5">
                 {item.points.map((p) => (
-                  <li key={p} className="flex items-start gap-2 text-sm text-gray-600">
-                    <CheckCircle size={16} className="mt-0.5 shrink-0 text-primary" />
+                  <li key={p} className="flex items-start gap-2 font-body text-sm text-gray-600">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-dark" />
                     {p}
                   </li>
                 ))}
@@ -441,73 +463,83 @@ function Priorities() {
   );
 }
 
-/* ─── CASE STUDY CAROUSEL ─── */
+/* ─────────────────────── CASE STUDY ─────────────────────── */
 function CaseStudy() {
   return (
-    <section id="clients" className="bg-white py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <h2 className="mb-14 text-center text-2xl font-extrabold text-gray-900 md:text-3xl">
+    <section id="clients" className="bg-white py-24">
+      <div className="mx-auto max-w-[1280px] px-8">
+        <h2 className="mb-16 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
           Nous sommes fiers
           <br />
           de leurs contenus
         </h2>
-        <div className="relative mx-auto max-w-4xl overflow-hidden rounded-xl border border-primary p-8">
-          <div className="flex flex-col items-center gap-8 md:flex-row">
-            {/* Left */}
-            <div className="flex-1 space-y-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 text-xs font-bold text-primary">
-                MACIF
+
+        <div className="relative mx-auto max-w-5xl">
+          <div className="overflow-hidden rounded-lg border-2 border-primary">
+            <div className="flex flex-col md:flex-row">
+              {/* Left + Center */}
+              <div className="flex flex-1 flex-col gap-6 p-8 md:flex-row md:p-10">
+                {/* Stats */}
+                <div className="space-y-3">
+                  <div className="font-heading text-sm font-bold text-primary/60">Giphar</div>
+                  <p className="number-outline text-5xl font-extrabold">#1</p>
+                  <p className="font-heading text-sm font-semibold leading-snug text-primary">
+                    position sur
+                    <br />
+                    Google
+                  </p>
+                  <a href="#" className="inline-flex items-center gap-2 font-heading text-xs font-semibold text-primary">
+                    Lire la story <ArrowRight size={14} />
+                  </a>
+                </div>
+                {/* Quote */}
+                <div className="flex-1 space-y-4">
+                  <div className="flex gap-2">
+                    <span className="font-heading text-2xl leading-none text-primary">&ldquo;&ldquo;</span>
+                    <p className="font-body text-sm leading-relaxed text-gray-600">
+                      Je cherchais un partenaire qui puisse m&apos;aider &agrave;
+                      produire diff&eacute;rents contenus avec une forte
+                      sensibilit&eacute; SEO
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-heading text-sm font-bold text-dark">
+                      Caroline Sautereau du Part,
+                    </p>
+                    <p className="font-heading text-sm font-bold text-dark">
+                      Responsable Marketing Digital et E-sant&eacute;, Giphar
+                    </p>
+                  </div>
+                </div>
               </div>
-              <p className="text-5xl font-extrabold text-primary/20">100</p>
-              <p className="text-sm font-semibold text-primary">
-                contenus produits par an
-              </p>
-            </div>
-            {/* Center */}
-            <div className="flex-1 space-y-4">
-              <p className="text-sm text-gray-600">
-                <span className="mr-1 text-lg text-primary">&ldquo;&ldquo;</span>
-                Je cherchais un partenaire qui puisse m&apos;aider &agrave;
-                produire diff&eacute;rents contenus avec une forte
-                sensibilit&eacute; SEO
-              </p>
-              <p className="text-sm font-bold text-gray-900">
-                Antoine Wintrebert,
-                <br />
-                Responsable Marketing Digital, MACIF
-              </p>
-            </div>
-            {/* Right - photo placeholder */}
-            <div className="flex h-56 w-44 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-400">
-              Photo
+              {/* Photo */}
+              <div className="hidden w-72 bg-teal md:block" />
             </div>
           </div>
 
-          {/* Navigation arrows */}
-          <button className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
-            <ChevronLeft size={28} />
+          {/* Arrows */}
+          <button className="absolute -left-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
+            <ChevronLeft size={32} />
           </button>
-          <button className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
-            <ChevronRight size={28} />
+          <button className="absolute -right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
+            <ChevronRight size={32} />
           </button>
         </div>
 
         {/* Dots */}
-        <div className="mt-6 flex justify-center gap-2">
+        <div className="mt-8 flex justify-center gap-2">
           {[0, 1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              className={`h-2.5 w-2.5 rounded-full ${i === 0 ? "bg-primary" : "border border-gray-300"}`}
-            />
+            <div key={i} className={`h-2 w-2 rounded-full ${i === 0 ? "bg-primary" : "border border-gray-300"}`} />
           ))}
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-10 text-center">
           <a
             href="#"
-            className="inline-flex items-center gap-2 rounded-md border border-primary px-6 py-3 text-sm font-medium text-primary transition hover:bg-primary hover:text-white"
+            className="inline-flex items-center gap-6 border border-primary px-7 py-3.5 font-heading text-sm font-semibold text-dark transition hover:bg-primary hover:text-white"
           >
-            Voir tous nos avis clients <ArrowRight size={16} />
+            Voir tous nos clients
+            <ArrowRight size={18} className="text-primary" />
           </a>
         </div>
       </div>
@@ -515,57 +547,107 @@ function CaseStudy() {
   );
 }
 
-/* ─── CONTACT FORM ─── */
+/* ─────────────────────── ACADEMY ─────────────────────── */
+function Academy() {
+  const cards = [
+    { title: "Lire nos articles de blog" },
+    { title: "Découvrir nos guides" },
+    { title: "Passer la certification" },
+    { title: "Choisir votre programme" },
+  ];
+
+  return (
+    <section id="academy" className="bg-white py-24">
+      <div className="mx-auto max-w-[1280px] px-8">
+        <h2 className="mb-6 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
+          Formez-vous gratuitement et faites monter
+          <br />
+          vos &eacute;quipes en comp&eacute;tence
+        </h2>
+        <p className="mb-14 text-center font-body text-base text-gray-600">
+          Devenez vous aussi expert du{" "}
+          <span className="underline decoration-dark underline-offset-4">Marketing de Contenu</span>{" "}
+          gr&acirc;ce &agrave; notre Academy.
+        </p>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {cards.map((card) => (
+            <div
+              key={card.title}
+              className="flex flex-col justify-between rounded-lg border-2 border-primary/30 p-6 transition hover:border-primary"
+            >
+              {/* Icon placeholder */}
+              <div className="mb-6">
+                <div className="h-16 w-16">
+                  <svg viewBox="0 0 64 64" className="h-full w-full">
+                    <rect x="8" y="16" width="48" height="36" rx="6" fill="#EEF0FF" stroke="#3359EC" strokeWidth="1.5" />
+                    <rect x="16" y="24" width="32" height="4" rx="2" fill="#5BEBB5" opacity="0.4" />
+                    <rect x="16" y="32" width="24" height="4" rx="2" fill="#3359EC" opacity="0.2" />
+                    <rect x="16" y="40" width="28" height="4" rx="2" fill="#F5C542" opacity="0.3" />
+                  </svg>
+                </div>
+              </div>
+              <hr className="mb-4 border-primary/20" />
+              <h3 className="mb-6 font-heading text-base font-bold text-dark">{card.title}</h3>
+              <ArrowRight size={18} className="text-primary" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────── CONTACT ─────────────────────── */
 function ContactForm() {
   return (
-    <section id="contact" className="bg-gray-50 py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-xl border border-primary">
+    <section id="contact" className="bg-white py-24">
+      <div className="mx-auto max-w-[1280px] px-8">
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-lg border-2 border-primary">
           <div className="flex flex-col md:flex-row">
-            <div className="flex flex-1 flex-col justify-center gap-6 p-8 md:p-12">
-              <div>
-                <h2 className="text-2xl font-bold text-primary">
-                  Un projet ?
-                </h2>
-                <h2 className="text-2xl font-bold text-gray-900">
-                  On vous rappelle !
-                </h2>
-              </div>
+            {/* Left - title */}
+            <div className="flex flex-col justify-center p-8 md:w-64 md:p-10">
+              <h2 className="font-heading text-2xl font-bold italic text-primary">
+                Un projet ?
+              </h2>
+              <h2 className="font-heading text-2xl font-bold text-dark">
+                On vous
+                <br />
+                rappelle !
+              </h2>
+            </div>
+            {/* Center - form */}
+            <div className="flex-1 p-8 md:py-10">
               <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="email"
                   placeholder="Email professionnel*"
-                  className="w-full rounded border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-primary"
+                  className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm outline-none placeholder:text-gray-400 focus:border-primary"
                 />
                 <input
                   type="tel"
                   placeholder="Numéro de téléphone*"
-                  className="w-full rounded border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-primary"
+                  className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm outline-none placeholder:text-gray-400 focus:border-primary"
                 />
-                <input
-                  type="text"
-                  placeholder="Budget annuel*"
-                  className="w-full rounded border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-primary"
-                />
-                <input
-                  type="text"
-                  placeholder="Votre demande*"
-                  className="w-full rounded border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-primary"
-                />
+                <select className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm text-gray-400 outline-none focus:border-primary">
+                  <option>Budget annuel en production de contenus*</option>
+                </select>
+                <select className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm text-gray-400 outline-none focus:border-primary">
+                  <option>Votre demande*</option>
+                </select>
                 <textarea
                   placeholder="Description rapide de votre projet*"
-                  rows={4}
-                  className="w-full rounded border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-primary"
+                  rows={3}
+                  className="w-full resize-y border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm outline-none placeholder:text-gray-400 focus:border-primary"
                 />
                 <button
                   type="submit"
-                  className="rounded border border-gray-900 px-8 py-2.5 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white"
+                  className="mt-2 border-b-2 border-primary px-6 py-2.5 font-heading text-sm font-bold text-dark transition hover:text-primary"
                 >
                   Envoyer
                 </button>
               </form>
             </div>
-            {/* Image placeholder */}
+            {/* Right - photo placeholder */}
             <div className="hidden w-72 bg-teal md:block" />
           </div>
         </div>
@@ -574,32 +656,33 @@ function ContactForm() {
   );
 }
 
-/* ─── FOOTER ─── */
+/* ─────────────────────── FOOTER ─────────────────────── */
 function Footer() {
-  const col1 = ["Pourquoi TMSH", "Solution", "Clients", "Pricing", "Blog", "Content Marketing", "Brand Content", "We Love You !"];
-  const col2 = ["Hollywords", "À Propos", "Partenaires", "Charte de confidentialité", "CGU freelances", "Mentions Légales", "Politique de Confidentialité", "Politique de Cookies"];
+  const col1 = ["Solution", "Clients", "Pricing", "Blog", "Content Marketing", "Brand Content", "We Love You !", "Formation"];
+  const col2 = ["Presse", "À Propos", "Partenaires", "Charte de confidentialité", "CGU freelances", "Mentions Légales", "Politique de Confidentialité", "Politique de Cookies"];
 
   return (
-    <footer className="bg-white py-16">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-4">
+    <footer className="bg-white py-20">
+      <div className="mx-auto grid max-w-[1280px] gap-12 px-8 md:grid-cols-4">
         {/* Brand */}
         <div className="space-y-4">
-          <div className="text-2xl font-bold tracking-tight">
-            TMSH
-            <span className="block text-[10px] font-normal tracking-[0.3em] text-gray-500">
-              PARIS
-            </span>
+          <div className="flex items-center gap-2">
+            <svg width="28" height="24" viewBox="0 0 36 32" fill="none">
+              <circle cx="12" cy="12" r="10" fill="#5BEBB5" />
+              <circle cx="24" cy="12" r="10" fill="#3359EC" opacity="0.5" />
+              <path d="M18 12 L18 28 Q18 32 14 28 L8 22" stroke="#3359EC" strokeWidth="3" fill="none" strokeLinecap="round" />
+            </svg>
+            <span className="font-heading text-base font-bold text-dark">TMSH Paris</span>
           </div>
-          <p className="text-sm text-gray-500">
-            TMSH Paris, l&apos;Agence de Communication avec 21
-            ann&eacute;es d&apos;exp&eacute;rience.
+          <p className="font-body text-sm leading-relaxed text-gray-500">
+            TMSH Paris, agence leader du Content Marketing.
           </p>
-          <p className="text-xs text-gray-400">
+          <p className="font-body text-xs text-gray-400">
             &copy; TMSH Paris, 2024
             <br />
             All Rights Reserved
           </p>
-          <div className="flex gap-3 text-gray-400">
+          <div className="flex gap-4 text-sm text-gray-400">
             <span className="cursor-pointer hover:text-primary">𝕏</span>
             <span className="cursor-pointer hover:text-primary">f</span>
             <span className="cursor-pointer hover:text-primary">◎</span>
@@ -607,27 +690,19 @@ function Footer() {
           </div>
         </div>
 
-        {/* Links col 1 */}
-        <nav className="space-y-2">
+        {/* Col 1 */}
+        <nav className="space-y-2.5">
           {col1.map((link) => (
-            <a
-              key={link}
-              href="#"
-              className="block text-sm text-gray-600 hover:text-primary"
-            >
+            <a key={link} href="#" className="block font-body text-sm text-gray-600 hover:text-primary">
               {link}
             </a>
           ))}
         </nav>
 
-        {/* Links col 2 */}
-        <nav className="space-y-2">
+        {/* Col 2 */}
+        <nav className="space-y-2.5">
           {col2.map((link) => (
-            <a
-              key={link}
-              href="#"
-              className="block text-sm text-gray-600 hover:text-primary"
-            >
+            <a key={link} href="#" className="block font-body text-sm text-gray-600 hover:text-primary">
               {link}
             </a>
           ))}
@@ -635,7 +710,7 @@ function Footer() {
 
         {/* Newsletter */}
         <div className="space-y-4">
-          <h4 className="text-sm font-bold text-gray-900">
+          <h4 className="font-heading text-sm font-bold leading-snug text-dark">
             Recevez
             <br />
             notre newsletter
@@ -643,14 +718,17 @@ function Footer() {
           <input
             type="email"
             placeholder="Email professionnel*"
-            className="w-full rounded border border-gray-300 px-4 py-2 text-sm outline-none focus:border-primary"
+            className="w-full border-b border-gray-300 bg-transparent px-1 py-2 font-body text-sm outline-none placeholder:text-gray-400 focus:border-primary"
           />
-          <button className="rounded border border-gray-900 px-6 py-2 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white">
+          <button className="border-b-2 border-primary px-4 py-2 font-heading text-sm font-bold text-dark transition hover:text-primary">
             S&apos;inscrire
           </button>
-          <div className="mt-2 text-xs text-gray-400">
-            <p className="font-bold text-primary">Qualiopi</p>
-            <p>processus certifié</p>
+          <div className="mt-4 space-y-1">
+            <p className="font-heading text-sm font-bold text-primary">Qualiopi</p>
+            <p className="font-body text-xs text-gray-500">processus certifi&eacute;</p>
+            <p className="font-body text-[10px] text-gray-400">
+              🇫🇷 R&Eacute;PUBLIQUE FRAN&Ccedil;AISE
+            </p>
           </div>
         </div>
       </div>
@@ -658,19 +736,20 @@ function Footer() {
   );
 }
 
-/* ─── PAGE ─── */
+/* ─────────────────────── PAGE ─────────────────────── */
 export default function Home() {
   return (
     <>
       <Header />
       <Hero />
       <ClientLogos />
-      <TestimonialsVideo />
+      <Testimonials />
       <ContentMarketing />
       <TeamSection />
       <ContentTypes />
       <Priorities />
       <CaseStudy />
+      <Academy />
       <ContactForm />
       <Footer />
     </>
