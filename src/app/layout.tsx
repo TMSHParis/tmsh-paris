@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
-import { Poppins, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
-  variable: "--font-heading",
-  display: "swap",
-});
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -29,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={`${poppins.variable} ${roboto.variable} antialiased`}>
+      <body className={`${roboto.variable} antialiased`}>
         {children}
       </body>
     </html>

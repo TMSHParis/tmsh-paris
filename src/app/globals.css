@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'ITCAvantGardeStd-Bold';
+  src: url('/fonts/ITCAvantGardeStd-Bold.woff') format('woff');
+  font-display: swap;
+  font-weight: 700;
+  font-style: normal;
+}
+
 @theme inline {
   --color-primary: #3359EC;
   --color-primary-dark: #2a47c0;
@@ -8,7 +16,7 @@
   --color-pink: #F5A0C0;
   --color-dark: #1E1E1E;
   --color-gray-bg: #F7F7F7;
-  --font-heading: 'Poppins', sans-serif;
+  --font-heading: 'ITCAvantGardeStd-Bold', sans-serif;
   --font-body: 'Roboto', sans-serif;
 }
 
