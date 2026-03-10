@@ -1,46 +1,163 @@
 "use client";
 
 import { ArrowRight, Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+
+/* ─────────────────────── SCROLL REVEAL ─────────────────────── */
+function Reveal({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -30px 0px" }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const style: CSSProperties = {
+    opacity: visible ? 1 : 0,
+    transform: visible ? "translateY(0) scale(1)" : "translateY(35px) scale(0.97)",
+    transition: `opacity 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
+  };
+
+  return (
+    <div ref={ref} style={style} className={className}>
+      {children}
+    </div>
+  );
+}
+
+/* ─────────────────────── BUTTON STYLES ─────────────────────── */
+const btnCta: CSSProperties = {
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "2rem",
+  border: "1px solid #3359EC",
+  padding: "13px 50px 13px 21px",
+  fontFamily: "var(--font-heading)",
+  fontSize: "14px",
+  fontWeight: 600,
+  color: "#1E1E1E",
+  borderRadius: "2px",
+  boxShadow: "#3359EC 4px 4px 0px 0px",
+  transition: "box-shadow 0.25s ease, transform 0.25s ease, color 0.25s ease, background-color 0.25s ease",
+  cursor: "pointer",
+  background: "transparent",
+  textDecoration: "none",
+};
+
+const btnCtaHover: CSSProperties = {
+  ...btnCta,
+  boxShadow: "#3359EC 0px 0px 0px 0px",
+  transform: "translate(4px, 4px)",
+  backgroundColor: "#3359EC",
+  color: "#fff",
+};
+
+function CTAButton({ href, children }: { href: string; children: ReactNode }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <a
+      href={href}
+      style={hovered ? btnCtaHover : btnCta}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {children}
+      <ArrowRight size={18} style={{ color: hovered ? "#fff" : "#3359EC", transition: "color 0.25s ease" }} />
+    </a>
+  );
+}
 
 /* ─────────────────────── HEADER ─────────────────────── */
 function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  const [h1, setH1] = useState(false);
+  const [h2, setH2] = useState(false);
+
+  const headerBtn: CSSProperties = {
+    border: "1px solid #3359EC",
+    padding: "10px 20px",
+    fontFamily: "var(--font-heading)",
+    fontSize: "12px",
+    fontWeight: 600,
+    color: h1 ? "#fff" : "#3359EC",
+    borderRadius: "2px",
+    boxShadow: h1 ? "#3359EC 0px 0px 0px 0px" : "#3359EC 3px 3px 0px 0px",
+    transform: h1 ? "translate(3px, 3px)" : "none",
+    transition: "box-shadow 0.25s ease, transform 0.25s ease, color 0.25s ease, background-color 0.25s ease",
+    cursor: "pointer",
+    background: h1 ? "#3359EC" : "transparent",
+    textDecoration: "none",
+  };
+
+  const headerBtnDark: CSSProperties = {
+    border: "1px solid #1E1E1E",
+    padding: "10px 20px",
+    fontFamily: "var(--font-heading)",
+    fontSize: "12px",
+    fontWeight: 600,
+    color: h2 ? "#fff" : "#1E1E1E",
+    borderRadius: "2px",
+    boxShadow: h2 ? "#1E1E1E 0px 0px 0px 0px" : "#1E1E1E 3px 3px 0px 0px",
+    transform: h2 ? "translate(3px, 3px)" : "none",
+    transition: "box-shadow 0.25s ease, transform 0.25s ease, color 0.25s ease, background-color 0.25s ease",
+    cursor: "pointer",
+    background: h2 ? "#1E1E1E" : "transparent",
+    textDecoration: "none",
+  };
+
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm">
+    <header
+      className={`sticky top-0 z-50 bg-white/95 backdrop-blur-sm transition-shadow duration-300 ${scrolled ? "header-scrolled" : ""}`}
+    >
       <div className="mx-auto flex max-w-[1280px] items-center justify-between px-8 py-5">
-        {/* Logo */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1">
-            <svg width="36" height="32" viewBox="0 0 36 32" fill="none">
-              <circle cx="12" cy="12" r="10" fill="#5BEBB5" />
-              <circle cx="24" cy="12" r="10" fill="#3359EC" opacity="0.5" />
-              <path d="M18 12 L18 28 Q18 32 14 28 L8 22" stroke="#3359EC" strokeWidth="3" fill="none" strokeLinecap="round" />
-            </svg>
-          </div>
-          <span className="font-heading text-xl font-bold tracking-tight text-dark">
-            TMSH Paris
-          </span>
+          <svg width="36" height="32" viewBox="0 0 36 32" fill="none">
+            <circle cx="12" cy="12" r="10" fill="#5BEBB5" />
+            <circle cx="24" cy="12" r="10" fill="#3359EC" opacity="0.5" />
+            <path d="M18 12 L18 28 Q18 32 14 28 L8 22" stroke="#3359EC" strokeWidth="3" fill="none" strokeLinecap="round" />
+          </svg>
+          <span className="font-heading text-xl font-bold tracking-tight text-dark">TMSH Paris</span>
         </div>
 
-        {/* Nav */}
         <nav className="hidden items-center gap-7 lg:flex">
-          <a href="#solution" className="font-heading text-xs font-semibold uppercase tracking-wide text-dark hover:text-primary">
-            Solution
-          </a>
-          <a href="#clients" className="font-heading text-xs font-semibold uppercase tracking-wide text-dark underline decoration-dark underline-offset-4 hover:text-primary">
-            Clients
-          </a>
-          <a href="#pricing" className="font-heading text-xs font-semibold uppercase tracking-wide text-dark hover:text-primary">
-            Pricing
-          </a>
-          <a href="#ressources" className="font-heading text-xs font-semibold uppercase tracking-wide text-dark hover:text-primary">
-            Ressources
-          </a>
-          <a href="#academy" className="font-heading text-xs font-semibold uppercase tracking-wide text-dark hover:text-primary">
-            Academy
-          </a>
+          {["Solution", "Clients", "Pricing", "Ressources", "Academy"].map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              className="font-heading text-xs font-semibold uppercase text-dark transition-colors hover:text-primary"
+              style={{ letterSpacing: "0.6px" }}
+            >
+              {item}
+            </a>
+          ))}
         </nav>
 
-        {/* Right side */}
         <div className="hidden items-center gap-4 lg:flex">
           <div className="flex items-center gap-2 text-xs font-semibold">
             <span className="text-primary">FR</span>
@@ -48,13 +165,17 @@ function Header() {
           </div>
           <a
             href="#contact"
-            className="rounded-sm border border-primary px-5 py-2 font-heading text-xs font-semibold text-primary transition hover:bg-primary hover:text-white"
+            style={headerBtn}
+            onMouseEnter={() => setH1(true)}
+            onMouseLeave={() => setH1(false)}
           >
             Prendre rendez-vous
           </a>
           <a
             href="#"
-            className="rounded-sm border border-dark px-5 py-2 font-heading text-xs font-semibold text-dark transition hover:bg-dark hover:text-white"
+            style={headerBtnDark}
+            onMouseEnter={() => setH2(true)}
+            onMouseLeave={() => setH2(false)}
           >
             Se connecter
           </a>
@@ -68,41 +189,32 @@ function Header() {
 function Hero() {
   return (
     <section id="accueil" className="relative overflow-hidden bg-white pb-8 pt-16">
-      {/* Blobs */}
-      <div className="absolute -left-48 bottom-0 h-[500px] w-[500px] rounded-full bg-gold/50" />
-      <div className="absolute -right-40 top-10 h-[550px] w-[550px] rounded-full bg-teal/40" />
+      <div className="blob-animate absolute -left-48 bottom-0 h-[500px] w-[500px] rounded-full bg-gold/50" />
+      <div className="blob-animate-reverse absolute -right-40 top-10 h-[550px] w-[550px] rounded-full bg-teal/40" />
 
       <div className="relative mx-auto flex max-w-[1280px] items-center gap-8 px-8">
-        {/* Left content */}
         <div className="flex-1 space-y-8 py-12">
-          <h1 className="font-heading text-[3.2rem] font-semibold italic leading-[1.15] text-dark">
-            Vous ne devriez plus rougir de vos contenus
-          </h1>
-          <p className="max-w-md font-body text-base leading-relaxed text-gray-600">
-            TMSH Paris vous aide &agrave; concevoir et produire tous vos{" "}
-            <strong className="font-bold text-dark">contenus digitaux</strong>{" "}
-            pour atteindre vos objectifs strat&eacute;giques.
-          </p>
-          <div className="flex flex-col gap-3">
-            <a
-              href="#contact"
-              className="inline-flex w-fit items-center gap-8 border border-primary px-6 py-3 font-heading text-sm font-semibold text-dark transition hover:bg-primary hover:text-white"
-            >
-              Prendre rendez-vous
-              <ArrowRight size={18} className="text-primary" />
-            </a>
-            <a
-              href="#solution"
-              className="inline-flex w-fit items-center gap-8 border border-primary px-6 py-3 font-heading text-sm font-semibold text-dark transition hover:bg-primary hover:text-white"
-            >
-              D&eacute;couvrir nos offres
-              <ArrowRight size={18} className="text-primary" />
-            </a>
-          </div>
+          <Reveal>
+            <h1 className="font-heading text-[3.2rem] font-semibold italic leading-[1.15] text-dark">
+              Vous ne devriez plus rougir de vos contenus
+            </h1>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="max-w-md font-body text-base leading-relaxed text-gray-600">
+              TMSH Paris vous aide à concevoir et produire tous vos{" "}
+              <strong className="font-bold text-dark">contenus digitaux</strong> pour atteindre vos
+              objectifs stratégiques.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="flex flex-col gap-3">
+              <CTAButton href="#contact">Prendre rendez-vous</CTAButton>
+              <CTAButton href="#solution">Découvrir nos offres</CTAButton>
+            </div>
+          </Reveal>
         </div>
 
-        {/* Right illustration */}
-        <div className="hidden flex-1 lg:block">
+        <Reveal delay={0.2} className="hidden flex-1 lg:block">
           <svg viewBox="0 0 520 420" className="w-full max-w-lg">
             <rect x="100" y="100" width="300" height="200" rx="8" fill="#EEF0FF" stroke="#3359EC" strokeWidth="2.5" />
             <rect x="118" y="118" width="264" height="155" rx="4" fill="white" stroke="#3359EC" strokeWidth="1.2" />
@@ -126,7 +238,7 @@ function Hero() {
             <rect x="38" y="112" width="45" height="6" rx="2" fill="#3359EC" opacity="0.15" />
             <rect x="38" y="130" width="62" height="40" rx="3" fill="#5BEBB5" opacity="0.15" />
           </svg>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -138,18 +250,17 @@ function ClientLogos() {
   return (
     <section className="bg-white py-6">
       <div className="mx-auto max-w-[1280px] px-8">
-        <div className="border-y border-primary/30 py-6">
-          <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
-            {logos.map((name) => (
-              <span
-                key={name}
-                className="font-heading text-lg font-bold tracking-wide text-primary/60"
-              >
-                {name}
-              </span>
-            ))}
+        <Reveal>
+          <div className="border-y border-primary/30 py-6">
+            <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
+              {logos.map((name) => (
+                <span key={name} className="font-heading text-lg font-bold tracking-wide text-primary/60 transition-colors duration-300 hover:text-primary">
+                  {name}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -158,74 +269,49 @@ function ClientLogos() {
 /* ─────────────────────── TESTIMONIALS ─────────────────────── */
 function Testimonials() {
   const items = [
-    {
-      quote: "Vous êtes vraiment toujours au rendez-vous en matière d'accompagnement, de planning et de performance.",
-      company: "PRIMAGAZ",
-      name: "Laetitia Aymard,",
-      role: "Directrice Marketing",
-      color: "bg-teal",
-    },
-    {
-      quote: "Notre communauté éditoriale est en place et notre stratégie SEO porte ses fruits.",
-      company: "MACIF",
-      name: "Antoine Wintrebert,",
-      role: "Responsable Marketing Digital",
-      color: "bg-teal",
-    },
-    {
-      quote: "On est très contents car on a gagné des places en SEO dans Google grâce à nos différents contenus.",
-      company: "Giphar",
-      name: "Caroline Sautereau du Part,",
-      role: "Responsable Marketing Digital",
-      color: "bg-teal",
-    },
+    { quote: "Vous êtes vraiment toujours au rendez-vous en matière d\u2019accompagnement, de planning et de performance.", company: "PRIMAGAZ", name: "Laetitia Aymard,", role: "Directrice Marketing", color: "bg-teal" },
+    { quote: "Notre communauté éditoriale est en place et notre stratégie SEO porte ses fruits.", company: "MACIF", name: "Antoine Wintrebert,", role: "Responsable Marketing Digital", color: "bg-teal" },
+    { quote: "On est très contents car on a gagné des places en SEO dans Google grâce à nos différents contenus.", company: "Giphar", name: "Caroline Sautereau du Part,", role: "Responsable Marketing Digital", color: "bg-teal" },
   ];
 
   return (
     <section className="bg-gray-bg py-24">
       <div className="mx-auto max-w-[1280px] px-8">
-        <h2 className="mb-16 text-center font-heading text-[2.8rem] font-bold italic leading-tight text-dark">
-          Comme vous, ils manquaient de temps,
-          <br />
-          de ressources, d&apos;inspiration et de r&eacute;sultats
-          <br />
-          concrets
-        </h2>
+        <Reveal>
+          <h2 className="mb-16 text-center font-heading text-[2.8rem] font-bold italic leading-tight text-dark">
+            Comme vous, ils manquaient de temps,<br />
+            de ressources, d&apos;inspiration et de résultats<br />
+            concrets
+          </h2>
+        </Reveal>
         <div className="grid gap-10 md:grid-cols-3">
           {items.map((t, i) => (
-            <div key={i} className="space-y-5">
-              {/* Video thumbnail */}
-              <div className={`relative flex h-52 items-center justify-center rounded-md ${t.color}`}>
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow-sm">
-                  <Play size={18} className="ml-0.5 text-primary" fill="#3359EC" />
+            <Reveal key={i} delay={i * 0.12}>
+              <div className="space-y-5">
+                <div className={`relative flex h-52 items-center justify-center overflow-hidden rounded-md ${t.color} cursor-pointer transition-transform duration-300 hover:scale-[1.02]`}>
+                  <div className="play-btn relative flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow-sm">
+                    <Play size={18} className="ml-0.5 text-primary" fill="#3359EC" />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <span className="font-heading text-2xl leading-none text-primary">&ldquo;&ldquo;</span>
+                  <p className="font-body text-sm leading-relaxed text-gray-600">{t.quote}</p>
+                </div>
+                <hr className="border-primary/20" />
+                <p className="font-heading text-lg font-bold text-dark">{t.company}</p>
+                <div>
+                  <p className="font-heading text-sm font-bold text-dark">{t.name}</p>
+                  <p className="font-heading text-sm font-bold text-dark">{t.role}</p>
                 </div>
               </div>
-              {/* Quote */}
-              <div className="flex gap-2">
-                <span className="font-heading text-2xl leading-none text-primary">&ldquo;&ldquo;</span>
-                <p className="font-body text-sm leading-relaxed text-gray-600">{t.quote}</p>
-              </div>
-              {/* Divider */}
-              <hr className="border-primary/20" />
-              {/* Company */}
-              <p className="font-heading text-lg font-bold text-dark">{t.company}</p>
-              {/* Person */}
-              <div>
-                <p className="font-heading text-sm font-bold text-dark">{t.name}</p>
-                <p className="font-heading text-sm font-bold text-dark">{t.role}</p>
-              </div>
-            </div>
+            </Reveal>
           ))}
         </div>
-        <div className="mt-14 text-center">
-          <a
-            href="#"
-            className="inline-flex items-center gap-6 border border-primary px-7 py-3.5 font-heading text-sm font-semibold text-dark transition hover:bg-primary hover:text-white"
-          >
-            Voir toutes nos Love Stories
-            <ArrowRight size={18} className="text-primary" />
-          </a>
-        </div>
+        <Reveal>
+          <div className="mt-14 text-center">
+            <CTAButton href="#">Voir toutes nos Love Stories</CTAButton>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -244,48 +330,47 @@ function ContentMarketing() {
   return (
     <section id="solution" className="bg-white py-24">
       <div className="mx-auto max-w-[1280px] px-8">
-        <h2 className="mb-16 text-center font-heading text-[2.8rem] font-semibold italic leading-tight text-dark">
-          Atteignez vos objectifs strat&eacute;giques
-          <br />
-          avec notre <span className="not-italic text-primary underline decoration-primary underline-offset-4">solution</span> compl&egrave;te
-          <br />
-          de <span className="not-italic text-primary underline decoration-primary underline-offset-4">Content Marketing</span>
-        </h2>
+        <Reveal>
+          <h2 className="mb-16 text-center font-heading text-[2.8rem] font-semibold italic leading-tight text-dark">
+            Atteignez vos objectifs stratégiques<br />
+            avec notre <span className="not-italic text-primary underline decoration-primary underline-offset-4">solution</span> complète<br />
+            de <span className="not-italic text-primary underline decoration-primary underline-offset-4">Content Marketing</span>
+          </h2>
+        </Reveal>
 
-        <div className="rounded-2xl bg-gray-bg px-10 py-14">
-          <h3 className="mb-12 text-center font-heading text-2xl font-bold italic text-dark">
-            Nous couvrons tous vos besoins
-          </h3>
-          <div className="mb-12 grid gap-8 text-center md:grid-cols-4">
-            {services.map((s) => (
-              <div key={s.title}>
-                <h4 className="mb-4 font-heading text-lg font-bold italic text-dark">{s.title}</h4>
-                {s.items.map((item) => (
-                  <p key={item} className="font-body text-sm text-gray-500">{item}</p>
-                ))}
-              </div>
-            ))}
-          </div>
-
-          {/* Timeline */}
-          <div className="relative mx-auto max-w-3xl">
-            <div className="flex items-center">
-              {barColors.map((c, i) => (
-                <div key={i} className="relative flex-1">
-                  {/* Number badge */}
-                  <div className="absolute -top-10 left-0 z-10 flex h-7 w-7 items-center justify-center rounded border-2 border-primary bg-white font-heading text-xs font-bold text-primary">
-                    {i + 1}
-                  </div>
+        <Reveal>
+          <div className="rounded-2xl bg-gray-bg px-10 py-14">
+            <h3 className="mb-12 text-center font-heading text-2xl font-bold italic text-dark">
+              Nous couvrons tous vos besoins
+            </h3>
+            <div className="mb-12 grid gap-8 text-center md:grid-cols-4">
+              {services.map((s) => (
+                <div key={s.title}>
+                  <h4 className="mb-4 font-heading text-lg font-bold italic text-dark">{s.title}</h4>
+                  {s.items.map((item) => (
+                    <p key={item} className="font-body text-sm text-gray-500">{item}</p>
+                  ))}
                 </div>
               ))}
             </div>
-            <div className="mt-2 flex h-5 overflow-hidden rounded-full border-2 border-primary/25">
-              {barColors.map((c, i) => (
-                <div key={i} className={`flex-1 ${c}`} />
-              ))}
+            <div className="relative mx-auto max-w-3xl">
+              <div className="flex items-center">
+                {barColors.map((_, i) => (
+                  <div key={i} className="relative flex-1">
+                    <div className="absolute -top-10 left-0 z-10 flex h-7 w-7 items-center justify-center rounded border-2 border-primary bg-white font-heading text-xs font-bold text-primary">
+                      {i + 1}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-2 flex h-5 overflow-hidden rounded-full border-2 border-primary/25">
+                {barColors.map((c, i) => (
+                  <div key={i} className={`flex-1 ${c}`} />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -294,63 +379,43 @@ function ContentMarketing() {
 /* ─────────────────────── TEAM ─────────────────────── */
 function TeamSection() {
   const stats = [
-    {
-      number: "20",
-      highlight: "Content Strategists",
-      rest: "dédiés à vos projets",
-      desc: "Un interlocuteur dédié à votre société pour vous accompagner tout au long de votre projet.",
-      color: "bg-gold",
-    },
-    {
-      number: "5 000",
-      highlight: "Talents",
-      rest: "internationaux éditoriaux et créatifs",
-      desc: "Une sélection de talents et experts parmi lesquels nous trouverons vos pépites créatives.",
-      color: "bg-[#3359EC]",
-    },
-    {
-      number: "1",
-      highlight: "Plateforme",
-      rest: "de gestion éditoriale",
-      desc: "Un outil pour piloter vos équipes et suivre la production de vos contenus éditoriaux et créatifs.",
-      color: "bg-teal",
-    },
+    { number: "20", highlight: "Content Strategists", rest: "dédiés à vos projets", desc: "Un interlocuteur dédié à votre société pour vous accompagner tout au long de votre projet.", color: "bg-gold" },
+    { number: "5 000", highlight: "Talents", rest: "internationaux éditoriaux et créatifs", desc: "Une sélection de talents et experts parmi lesquels nous trouverons vos pépites créatives.", color: "bg-[#3359EC]" },
+    { number: "1", highlight: "Plateforme", rest: "de gestion éditoriale", desc: "Un outil pour piloter vos équipes et suivre la production de vos contenus éditoriaux et créatifs.", color: "bg-teal" },
   ];
 
   return (
     <section className="bg-white py-24">
       <div className="mx-auto max-w-[1280px] px-8">
-        <h2 className="mb-16 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
-          Plus qu&apos;une agence, nous sommes
-          <br />
-          l&apos;extension de vos &eacute;quipes
-        </h2>
+        <Reveal>
+          <h2 className="mb-16 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
+            Plus qu&apos;une agence, nous sommes<br />l&apos;extension de vos équipes
+          </h2>
+        </Reveal>
         <div className="grid gap-10 md:grid-cols-3">
-          {stats.map((s) => (
-            <div key={s.number} className="space-y-5">
-              <div className={`relative flex h-56 items-center justify-center rounded-md ${s.color}`}>
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow-sm">
-                  <Play size={18} className="ml-0.5 text-gray-700" fill="#555" />
+          {stats.map((s, i) => (
+            <Reveal key={s.number} delay={i * 0.12}>
+              <div className="space-y-5">
+                <div className={`relative flex h-56 items-center justify-center overflow-hidden rounded-md ${s.color} cursor-pointer transition-transform duration-300 hover:scale-[1.02]`}>
+                  <div className="play-btn relative flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow-sm">
+                    <Play size={18} className="ml-0.5 text-gray-700" fill="#555" />
+                  </div>
                 </div>
+                <p className="number-outline text-6xl font-extrabold">{s.number}</p>
+                <h3 className="font-heading text-lg font-bold leading-snug text-dark">
+                  <span className="text-primary underline decoration-primary underline-offset-4">{s.highlight}</span>{" "}
+                  {s.rest}
+                </h3>
+                <p className="font-body text-sm leading-relaxed text-gray-500">{s.desc}</p>
               </div>
-              <p className="number-outline text-6xl font-extrabold">{s.number}</p>
-              <h3 className="font-heading text-lg font-bold leading-snug text-dark">
-                <span className="text-primary underline decoration-primary underline-offset-4">{s.highlight}</span>{" "}
-                {s.rest}
-              </h3>
-              <p className="font-body text-sm leading-relaxed text-gray-500">{s.desc}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
-        <div className="mt-14 text-center">
-          <a
-            href="#"
-            className="inline-flex items-center gap-6 border border-primary px-7 py-3.5 font-heading text-sm font-semibold text-dark transition hover:bg-primary hover:text-white"
-          >
-            Voir la solution compl&egrave;te
-            <ArrowRight size={18} className="text-primary" />
-          </a>
-        </div>
+        <Reveal>
+          <div className="mt-14 text-center">
+            <CTAButton href="#">Voir la solution complète</CTAButton>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -364,8 +429,7 @@ function ContentTypes() {
     <section className="bg-white py-24">
       <div className="mx-auto max-w-[1280px] px-8">
         <div className="flex flex-col items-center gap-16 lg:flex-row">
-          {/* Illustration */}
-          <div className="relative flex-1">
+          <Reveal className="flex-1">
             <svg viewBox="0 0 420 370" className="mx-auto w-full max-w-md">
               <circle cx="220" cy="190" r="140" fill="#5BEBB5" opacity="0.18" />
               <circle cx="140" cy="240" r="90" fill="#F5C542" opacity="0.18" />
@@ -379,32 +443,30 @@ function ContentTypes() {
               <rect x="55" y="210" width="60" height="50" rx="6" fill="white" stroke="#3359EC" strokeWidth="2" />
               <rect x="325" y="235" width="55" height="45" rx="22" fill="white" stroke="#3359EC" strokeWidth="2" />
             </svg>
-          </div>
-          {/* Text */}
-          <div className="flex-1 space-y-5">
+          </Reveal>
+          <Reveal delay={0.1} className="flex-1 space-y-5">
             <h2 className="font-heading text-[2.8rem] font-extrabold leading-tight text-dark">
-              Nous aimons
-              <br />
-              tous les contenus
+              Nous aimons<br />tous les contenus
             </h2>
             <p className="font-body text-base leading-relaxed text-gray-600">
-              Nous vous aidons &agrave; produire{" "}
+              Nous vous aidons à produire{" "}
               <span className="underline decoration-dark underline-offset-4">tous vos contenus digitaux</span>,
-              quel que soit le format (&eacute;dito, audio et vid&eacute;o).
+              quel que soit le format (édito, audio et vidéo).
             </p>
-          </div>
+          </Reveal>
         </div>
 
-        {/* Tabs */}
-        <div className="mt-16 border-y border-primary/25 py-5">
-          <div className="flex flex-wrap items-center justify-center gap-6">
-            {types.map((t, i) => (
-              <div key={i} className="flex items-center gap-2 border-r border-primary/20 pr-6 last:border-0">
-                <span className="font-heading text-sm font-semibold text-primary">{t}</span>
-              </div>
-            ))}
+        <Reveal>
+          <div className="mt-16 border-y border-primary/25 py-5">
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              {types.map((t, i) => (
+                <div key={i} className="flex items-center gap-2 border-r border-primary/20 pr-6 last:border-0">
+                  <span className="cursor-pointer font-heading text-sm font-semibold text-primary transition-colors duration-200 hover:text-dark">{t}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -413,49 +475,41 @@ function ContentTypes() {
 /* ─────────────────────── PRIORITIES ─────────────────────── */
 function Priorities() {
   const items = [
-    {
-      title: "Fiabilité",
-      points: ["Sélection des meilleurs experts", "Renouvellement sous 48h", "Réponse sous 24h"],
-    },
-    {
-      title: "Amélioration",
-      points: ["Partage de notre veille", "Formation de vos équipes", "Mesure de votre satisfaction"],
-    },
-    {
-      title: "Confidentialité",
-      points: ["Confidentialité des échanges", "Contenus libres de droit", "Maîtrise des contraintes légales"],
-    },
+    { title: "Fiabilité", points: ["Sélection des meilleurs experts", "Renouvellement sous 48h", "Réponse sous 24h"] },
+    { title: "Amélioration", points: ["Partage de notre veille", "Formation de vos équipes", "Mesure de votre satisfaction"] },
+    { title: "Confidentialité", points: ["Confidentialité des échanges", "Contenus libres de droit", "Maîtrise des contraintes légales"] },
   ];
 
   return (
     <section className="bg-white py-24">
       <div className="mx-auto max-w-[1280px] px-8">
-        <h2 className="mb-16 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
-          Votre succ&egrave;s
-          <br />
-          est notre priorit&eacute;
-        </h2>
+        <Reveal>
+          <h2 className="mb-16 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
+            Votre succès<br />est notre priorité
+          </h2>
+        </Reveal>
         <div className="grid gap-12 md:grid-cols-3">
-          {items.map((item) => (
-            <div key={item.title} className="space-y-5">
-              {/* Icon placeholder */}
-              <div className="h-16 w-16">
-                <svg viewBox="0 0 64 64" className="h-full w-full">
-                  <circle cx="32" cy="32" r="28" fill="#F5C542" opacity="0.2" />
-                  <circle cx="32" cy="32" r="20" fill="white" stroke="#3359EC" strokeWidth="2" />
-                  <circle cx="32" cy="32" r="8" fill="#3359EC" opacity="0.15" />
-                </svg>
+          {items.map((item, i) => (
+            <Reveal key={item.title} delay={i * 0.12}>
+              <div className="space-y-5 rounded-lg p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(51,89,236,0.12)]">
+                <div className="h-16 w-16">
+                  <svg viewBox="0 0 64 64" className="h-full w-full">
+                    <circle cx="32" cy="32" r="28" fill="#F5C542" opacity="0.2" />
+                    <circle cx="32" cy="32" r="20" fill="white" stroke="#3359EC" strokeWidth="2" />
+                    <circle cx="32" cy="32" r="8" fill="#3359EC" opacity="0.15" />
+                  </svg>
+                </div>
+                <h3 className="font-heading text-xl font-bold italic text-dark">{item.title}</h3>
+                <ul className="space-y-2.5">
+                  {item.points.map((p) => (
+                    <li key={p} className="flex items-start gap-2 font-body text-sm text-gray-600">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-dark" />
+                      {p}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <h3 className="font-heading text-xl font-bold italic text-dark">{item.title}</h3>
-              <ul className="space-y-2.5">
-                {item.points.map((p) => (
-                  <li key={p} className="flex items-start gap-2 font-body text-sm text-gray-600">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-dark" />
-                    {p}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -468,80 +522,63 @@ function CaseStudy() {
   return (
     <section id="clients" className="bg-white py-24">
       <div className="mx-auto max-w-[1280px] px-8">
-        <h2 className="mb-16 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
-          Nous sommes fiers
-          <br />
-          de leurs contenus
-        </h2>
+        <Reveal>
+          <h2 className="mb-16 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
+            Nous sommes fiers<br />de leurs contenus
+          </h2>
+        </Reveal>
 
-        <div className="relative mx-auto max-w-5xl">
-          <div className="overflow-hidden rounded-lg border-2 border-primary">
-            <div className="flex flex-col md:flex-row">
-              {/* Left + Center */}
-              <div className="flex flex-1 flex-col gap-6 p-8 md:flex-row md:p-10">
-                {/* Stats */}
-                <div className="space-y-3">
-                  <div className="font-heading text-sm font-bold text-primary/60">Giphar</div>
-                  <p className="number-outline text-5xl font-extrabold">#1</p>
-                  <p className="font-heading text-sm font-semibold leading-snug text-primary">
-                    position sur
-                    <br />
-                    Google
-                  </p>
-                  <a href="#" className="inline-flex items-center gap-2 font-heading text-xs font-semibold text-primary">
-                    Lire la story <ArrowRight size={14} />
-                  </a>
-                </div>
-                {/* Quote */}
-                <div className="flex-1 space-y-4">
-                  <div className="flex gap-2">
-                    <span className="font-heading text-2xl leading-none text-primary">&ldquo;&ldquo;</span>
-                    <p className="font-body text-sm leading-relaxed text-gray-600">
-                      Je cherchais un partenaire qui puisse m&apos;aider &agrave;
-                      produire diff&eacute;rents contenus avec une forte
-                      sensibilit&eacute; SEO
+        <Reveal>
+          <div className="relative mx-auto max-w-5xl">
+            <div className="overflow-hidden rounded-lg border-2 border-primary transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(51,89,236,0.12)]">
+              <div className="flex flex-col md:flex-row">
+                <div className="flex flex-1 flex-col gap-6 p-8 md:flex-row md:p-10">
+                  <div className="space-y-3">
+                    <div className="font-heading text-sm font-bold text-primary/60">Giphar</div>
+                    <p className="number-outline text-5xl font-extrabold">#1</p>
+                    <p className="font-heading text-sm font-semibold leading-snug text-primary">
+                      position sur<br />Google
                     </p>
+                    <a href="#" className="inline-flex items-center gap-2 font-heading text-xs font-semibold text-primary transition-colors hover:text-dark">
+                      Lire la story <ArrowRight size={14} />
+                    </a>
                   </div>
-                  <div>
-                    <p className="font-heading text-sm font-bold text-dark">
-                      Caroline Sautereau du Part,
-                    </p>
-                    <p className="font-heading text-sm font-bold text-dark">
-                      Responsable Marketing Digital et E-sant&eacute;, Giphar
-                    </p>
+                  <div className="flex-1 space-y-4">
+                    <div className="flex gap-2">
+                      <span className="font-heading text-2xl leading-none text-primary">&ldquo;&ldquo;</span>
+                      <p className="font-body text-sm leading-relaxed text-gray-600">
+                        Je cherchais un partenaire qui puisse m&apos;aider à produire différents contenus avec une forte sensibilité SEO
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-heading text-sm font-bold text-dark">Caroline Sautereau du Part,</p>
+                      <p className="font-heading text-sm font-bold text-dark">Responsable Marketing Digital et E-santé, Giphar</p>
+                    </div>
                   </div>
                 </div>
+                <div className="hidden w-72 bg-teal md:block" />
               </div>
-              {/* Photo */}
-              <div className="hidden w-72 bg-teal md:block" />
             </div>
+            <button className="absolute -left-5 top-1/2 -translate-y-1/2 text-gray-400 transition-colors hover:text-primary">
+              <ChevronLeft size={32} />
+            </button>
+            <button className="absolute -right-5 top-1/2 -translate-y-1/2 text-gray-400 transition-colors hover:text-primary">
+              <ChevronRight size={32} />
+            </button>
           </div>
+        </Reveal>
 
-          {/* Arrows */}
-          <button className="absolute -left-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
-            <ChevronLeft size={32} />
-          </button>
-          <button className="absolute -right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
-            <ChevronRight size={32} />
-          </button>
-        </div>
-
-        {/* Dots */}
         <div className="mt-8 flex justify-center gap-2">
           {[0, 1, 2, 3, 4].map((i) => (
-            <div key={i} className={`h-2 w-2 rounded-full ${i === 0 ? "bg-primary" : "border border-gray-300"}`} />
+            <div key={i} className={`h-2 w-2 rounded-full transition-colors ${i === 0 ? "bg-primary" : "border border-gray-300 hover:bg-primary/40"}`} />
           ))}
         </div>
 
-        <div className="mt-10 text-center">
-          <a
-            href="#"
-            className="inline-flex items-center gap-6 border border-primary px-7 py-3.5 font-heading text-sm font-semibold text-dark transition hover:bg-primary hover:text-white"
-          >
-            Voir tous nos clients
-            <ArrowRight size={18} className="text-primary" />
-          </a>
-        </div>
+        <Reveal>
+          <div className="mt-10 text-center">
+            <CTAButton href="#">Voir tous nos clients</CTAButton>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -559,37 +596,37 @@ function Academy() {
   return (
     <section id="academy" className="bg-white py-24">
       <div className="mx-auto max-w-[1280px] px-8">
-        <h2 className="mb-6 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
-          Formez-vous gratuitement et faites monter
-          <br />
-          vos &eacute;quipes en comp&eacute;tence
-        </h2>
-        <p className="mb-14 text-center font-body text-base text-gray-600">
-          Devenez vous aussi expert du{" "}
-          <span className="underline decoration-dark underline-offset-4">Marketing de Contenu</span>{" "}
-          gr&acirc;ce &agrave; notre Academy.
-        </p>
+        <Reveal>
+          <h2 className="mb-6 text-center font-heading text-[2.4rem] font-bold italic leading-tight text-dark">
+            Formez-vous gratuitement et faites monter<br />vos équipes en compétence
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="mb-14 text-center font-body text-base text-gray-600">
+            Devenez vous aussi expert du{" "}
+            <span className="underline decoration-dark underline-offset-4">Marketing de Contenu</span>{" "}
+            grâce à notre Academy.
+          </p>
+        </Reveal>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {cards.map((card) => (
-            <div
-              key={card.title}
-              className="flex flex-col justify-between rounded-lg border-2 border-primary/30 p-6 transition hover:border-primary"
-            >
-              {/* Icon placeholder */}
-              <div className="mb-6">
-                <div className="h-16 w-16">
-                  <svg viewBox="0 0 64 64" className="h-full w-full">
-                    <rect x="8" y="16" width="48" height="36" rx="6" fill="#EEF0FF" stroke="#3359EC" strokeWidth="1.5" />
-                    <rect x="16" y="24" width="32" height="4" rx="2" fill="#5BEBB5" opacity="0.4" />
-                    <rect x="16" y="32" width="24" height="4" rx="2" fill="#3359EC" opacity="0.2" />
-                    <rect x="16" y="40" width="28" height="4" rx="2" fill="#F5C542" opacity="0.3" />
-                  </svg>
+          {cards.map((card, i) => (
+            <Reveal key={card.title} delay={i * 0.1}>
+              <div className="flex cursor-pointer flex-col justify-between rounded-lg border-2 border-primary/30 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-[0_12px_24px_rgba(51,89,236,0.12)]">
+                <div className="mb-6">
+                  <div className="h-16 w-16">
+                    <svg viewBox="0 0 64 64" className="h-full w-full">
+                      <rect x="8" y="16" width="48" height="36" rx="6" fill="#EEF0FF" stroke="#3359EC" strokeWidth="1.5" />
+                      <rect x="16" y="24" width="32" height="4" rx="2" fill="#5BEBB5" opacity="0.4" />
+                      <rect x="16" y="32" width="24" height="4" rx="2" fill="#3359EC" opacity="0.2" />
+                      <rect x="16" y="40" width="28" height="4" rx="2" fill="#F5C542" opacity="0.3" />
+                    </svg>
+                  </div>
                 </div>
+                <hr className="mb-4 border-primary/20" />
+                <h3 className="mb-6 font-heading text-base font-bold text-dark">{card.title}</h3>
+                <ArrowRight size={18} className="text-primary" />
               </div>
-              <hr className="mb-4 border-primary/20" />
-              <h3 className="mb-6 font-heading text-base font-bold text-dark">{card.title}</h3>
-              <ArrowRight size={18} className="text-primary" />
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -602,55 +639,35 @@ function ContactForm() {
   return (
     <section id="contact" className="bg-white py-24">
       <div className="mx-auto max-w-[1280px] px-8">
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-lg border-2 border-primary">
-          <div className="flex flex-col md:flex-row">
-            {/* Left - title */}
-            <div className="flex flex-col justify-center p-8 md:w-64 md:p-10">
-              <h2 className="font-heading text-2xl font-bold italic text-primary">
-                Un projet ?
-              </h2>
-              <h2 className="font-heading text-2xl font-bold text-dark">
-                On vous
-                <br />
-                rappelle !
-              </h2>
+        <Reveal>
+          <div className="mx-auto max-w-5xl overflow-hidden rounded-lg border-2 border-primary transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(51,89,236,0.12)]">
+            <div className="flex flex-col md:flex-row">
+              <div className="flex flex-col justify-center p-8 md:w-64 md:p-10">
+                <h2 className="font-heading text-2xl font-bold italic text-primary">Un projet ?</h2>
+                <h2 className="font-heading text-2xl font-bold text-dark">
+                  On vous<br />rappelle !
+                </h2>
+              </div>
+              <div className="flex-1 p-8 md:py-10">
+                <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
+                  <input type="email" placeholder="Email professionnel*" className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-primary" />
+                  <input type="tel" placeholder="Numéro de téléphone*" className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-primary" />
+                  <select className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm text-gray-400 outline-none transition-colors focus:border-primary">
+                    <option>Budget annuel en production de contenus*</option>
+                  </select>
+                  <select className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm text-gray-400 outline-none transition-colors focus:border-primary">
+                    <option>Votre demande*</option>
+                  </select>
+                  <textarea placeholder="Description rapide de votre projet*" rows={3} className="w-full resize-y border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-primary" />
+                  <button type="submit" className="mt-2 border-b-2 border-primary px-6 py-2.5 font-heading text-sm font-bold text-dark transition-colors hover:text-primary">
+                    Envoyer
+                  </button>
+                </form>
+              </div>
+              <div className="hidden w-72 bg-teal md:block" />
             </div>
-            {/* Center - form */}
-            <div className="flex-1 p-8 md:py-10">
-              <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
-                <input
-                  type="email"
-                  placeholder="Email professionnel*"
-                  className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm outline-none placeholder:text-gray-400 focus:border-primary"
-                />
-                <input
-                  type="tel"
-                  placeholder="Numéro de téléphone*"
-                  className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm outline-none placeholder:text-gray-400 focus:border-primary"
-                />
-                <select className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm text-gray-400 outline-none focus:border-primary">
-                  <option>Budget annuel en production de contenus*</option>
-                </select>
-                <select className="w-full border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm text-gray-400 outline-none focus:border-primary">
-                  <option>Votre demande*</option>
-                </select>
-                <textarea
-                  placeholder="Description rapide de votre projet*"
-                  rows={3}
-                  className="w-full resize-y border-b border-gray-300 bg-transparent px-1 py-2.5 font-body text-sm outline-none placeholder:text-gray-400 focus:border-primary"
-                />
-                <button
-                  type="submit"
-                  className="mt-2 border-b-2 border-primary px-6 py-2.5 font-heading text-sm font-bold text-dark transition hover:text-primary"
-                >
-                  Envoyer
-                </button>
-              </form>
-            </div>
-            {/* Right - photo placeholder */}
-            <div className="hidden w-72 bg-teal md:block" />
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -664,7 +681,6 @@ function Footer() {
   return (
     <footer className="bg-white py-20">
       <div className="mx-auto grid max-w-[1280px] gap-12 px-8 md:grid-cols-4">
-        {/* Brand */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <svg width="28" height="24" viewBox="0 0 36 32" fill="none">
@@ -677,58 +693,32 @@ function Footer() {
           <p className="font-body text-sm leading-relaxed text-gray-500">
             TMSH Paris, agence leader du Content Marketing.
           </p>
-          <p className="font-body text-xs text-gray-400">
-            &copy; TMSH Paris, 2024
-            <br />
-            All Rights Reserved
-          </p>
+          <p className="font-body text-xs text-gray-400">&copy; TMSH Paris, 2024<br />All Rights Reserved</p>
           <div className="flex gap-4 text-sm text-gray-400">
-            <span className="cursor-pointer hover:text-primary">𝕏</span>
-            <span className="cursor-pointer hover:text-primary">f</span>
-            <span className="cursor-pointer hover:text-primary">◎</span>
-            <span className="cursor-pointer hover:text-primary">in</span>
+            {["X", "f", "ig", "in"].map((icon) => (
+              <span key={icon} className="cursor-pointer transition-colors hover:text-primary">{icon}</span>
+            ))}
           </div>
         </div>
-
-        {/* Col 1 */}
         <nav className="space-y-2.5">
           {col1.map((link) => (
-            <a key={link} href="#" className="block font-body text-sm text-gray-600 hover:text-primary">
-              {link}
-            </a>
+            <a key={link} href="#" className="block font-body text-sm text-gray-600 transition-colors hover:text-primary">{link}</a>
           ))}
         </nav>
-
-        {/* Col 2 */}
         <nav className="space-y-2.5">
           {col2.map((link) => (
-            <a key={link} href="#" className="block font-body text-sm text-gray-600 hover:text-primary">
-              {link}
-            </a>
+            <a key={link} href="#" className="block font-body text-sm text-gray-600 transition-colors hover:text-primary">{link}</a>
           ))}
         </nav>
-
-        {/* Newsletter */}
         <div className="space-y-4">
-          <h4 className="font-heading text-sm font-bold leading-snug text-dark">
-            Recevez
-            <br />
-            notre newsletter
-          </h4>
-          <input
-            type="email"
-            placeholder="Email professionnel*"
-            className="w-full border-b border-gray-300 bg-transparent px-1 py-2 font-body text-sm outline-none placeholder:text-gray-400 focus:border-primary"
-          />
-          <button className="border-b-2 border-primary px-4 py-2 font-heading text-sm font-bold text-dark transition hover:text-primary">
+          <h4 className="font-heading text-sm font-bold leading-snug text-dark">Recevez<br />notre newsletter</h4>
+          <input type="email" placeholder="Email professionnel*" className="w-full border-b border-gray-300 bg-transparent px-1 py-2 font-body text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-primary" />
+          <button className="border-b-2 border-primary px-4 py-2 font-heading text-sm font-bold text-dark transition-colors hover:text-primary">
             S&apos;inscrire
           </button>
           <div className="mt-4 space-y-1">
             <p className="font-heading text-sm font-bold text-primary">Qualiopi</p>
-            <p className="font-body text-xs text-gray-500">processus certifi&eacute;</p>
-            <p className="font-body text-[10px] text-gray-400">
-              🇫🇷 R&Eacute;PUBLIQUE FRAN&Ccedil;AISE
-            </p>
+            <p className="font-body text-xs text-gray-500">processus certifié</p>
           </div>
         </div>
       </div>
